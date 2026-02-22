@@ -4,6 +4,7 @@ import {z} from 'zod';
 import fs from 'node:fs/promises';
 import { Resend } from 'resend';
 import readline from 'readline';
+import{weatherAgent ,weahtherEmailTool} from "./agent_tool.js"
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -126,16 +127,17 @@ const customerSupportAgent = new Agent (
     {
         name:"customer_support_agent",
         instructions:` 1.You are a customer support agent for Internet provider named Quantam_Networks 
-        2. Users will ask you query related to there services respond them properly
+        2. Users will ask you query related to there8 services respond them properly
         3. Remember the name and email if user has provided any
         4. if user asks for plan details calls sales_agent
         5. if user wants refund for there plan then call process_refund_agent
         6. Remember planid, customerid, email, and reason which users provide for refund 
         7. After refund is processed, ensure a confirmation email is sent to the user
-        8. For processing refund custonerid , email ,planid  and reason all are mandatory .without this you cant refund money or send refund mail
+        8. For processing refund customerid , email ,planid  and reason all are mandatory .without this you cant refund money or send refund mail
         9. There should be a valid reason for refund .
         10. Negotiate with user before doing refund 
         11. If user is facing any technical or general issue try to resolve it . 
+        12. if users ask for weather greet the user and share weather details on email if user ask for it.
         `,
         tools:[salesAgent.asTool({
             toolName:"sales_expert_agent",
@@ -144,7 +146,13 @@ const customerSupportAgent = new Agent (
         refundAgent.asTool({
             toolName:"process_refund_agent",
             toolDescription:"process refund of users when user ask for refund "
+        }),
+        weatherAgent.asTool({
+            toolName:"weather_agent",
+            toolDescription:" Shares weather details with user . If user shares email it can share weather report on email provided"
         })
+        
+
 
     ]
     }

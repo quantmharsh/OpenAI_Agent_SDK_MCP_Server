@@ -13,7 +13,7 @@ const GetWeatherResultSchema = z.object({
   condition: z.string().optional().describe('condition of the weather'),
 });
 
-const getWeatherTool=tool({
+export const getWeatherTool=tool({
   name:"get_weather_details",
   description:"Give details of weather of the city which users ask for.",
   parameters:z.object({
@@ -27,7 +27,7 @@ const getWeatherTool=tool({
 
 });
 
-const emailTool =tool({
+export const weahtherEmailTool =tool({
   name:"send_email_to_user",
   description:"The city for which user have asked weather. Share weather details with that user",
   parameters:z.object({
@@ -81,7 +81,7 @@ const emailTool =tool({
   
 });
 
-const agent = new Agent({
+export const weatherAgent = new Agent({
   name:'weatherAgent',
  instructions: `
 You are a Weather Assistant.
@@ -92,17 +92,17 @@ You are a Weather Assistant.
 4. Pass name, email and weatherReport to the email tool. 
 Always use tools when required.
 `,
-tools:[getWeatherTool ,emailTool],
+tools:[getWeatherTool ,weahtherEmailTool],
  
 
 });
 
 
 async function main (query =''){
-  const result=await run (agent ,query);
+  const result=await run (weatherAgent ,query);
   console.log("Result:" , result.finalOutput);
 }
-main("Hi Harsh here What is temperature of shimla ? and send weather report  to   srivastavah240@gmail.com ");
+//main("Hi Harsh here What is temperature of shimla ? and send weather report  to   srivastavah240@gmail.com ");
 
 
 
